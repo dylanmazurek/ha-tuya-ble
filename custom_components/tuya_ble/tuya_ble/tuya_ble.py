@@ -27,7 +27,7 @@ from .const import (
     GATT_MTU,
     MANUFACTURER_DATA_ID,
     RESPONSE_WAIT_TIMEOUT,
-    SERVICE_UUID,
+    SERVICE_UUID_TEMP,
     TuyaBLECode,
     TuyaBLEDataPointType,
 )
@@ -267,7 +267,7 @@ class TuyaBLEDevice:
         _LOGGER.debug("%s: Initializing", self.address)
         if await self._update_device_info():
             self._decode_advertisement_data()
-            
+
     def _build_pairing_request(self) -> bytes:
         result = bytearray()
 
@@ -312,7 +312,7 @@ class TuyaBLEDevice:
         if self._advertisement_data:
             if self._advertisement_data.service_data:
                 service_data = self._advertisement_data.service_data.get(
-                    SERVICE_UUID)
+                    SERVICE_UUID_TEMP)
                 if service_data and len(service_data) > 1:
                     match service_data[0]:
                         case 0:
