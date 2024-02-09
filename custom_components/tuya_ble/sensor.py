@@ -198,7 +198,7 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
                 [
                     "blliqpsj",
                     "ndvkgsrm",
-                    "yiihr7zh", 
+                    "yiihr7zh",
                     "neq16kgd"
                 ],  # Fingerbot Plus
                 [
@@ -255,6 +255,22 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
                         "mdi:battery-50",
                         "mdi:battery-check",
                     ],
+                ),
+                TuyaBLEBatteryMapping(dp_id=4),
+            ],
+            "iv7hudlj": [  # Bluetooth Temperature Humidity Sensor
+                TuyaBLETemperatureMapping(
+                    dp_id=1,
+                    coefficient=10.0,
+                ),
+                TuyaBLESensorMapping(
+                    dp_id=2,
+                    description=SensorEntityDescription(
+                        key="moisture",
+                        device_class=SensorDeviceClass.MOISTURE,
+                        native_unit_of_measurement=PERCENTAGE,
+                        state_class=SensorStateClass.MEASUREMENT,
+                    ),
                 ),
                 TuyaBLEBatteryMapping(dp_id=4),
             ],
