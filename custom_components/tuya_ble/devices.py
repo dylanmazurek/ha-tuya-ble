@@ -289,7 +289,7 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
     ),
     "znhsb": TuyaBLECategoryInfo(
         products={
-            "cdlandip":  # device product_id
+            "cdlandip": # device product_id
             TuyaBLEProductInfo(
                 name="Smart water bottle",
             ),
@@ -297,9 +297,22 @@ devices_database: dict[str, TuyaBLECategoryInfo] = {
     ),
     "ggq": TuyaBLECategoryInfo(
         products={
-            "6pahkcau":  # device product_id
-            TuyaBLEProductInfo(
-                name="Irrigation computer",
+            **dict.fromkeys(
+                [
+                    "6pahkcau", 
+                    "hfgdqhho",
+                ],  # device product_id
+                TuyaBLEProductInfo( 
+                    name="Irrigation computer",
+                ),
+            )
+        },
+    ),
+    "sfkzq": TuyaBLECategoryInfo(
+        products={
+            "nxquc5lb": # device product_id
+            TuyaBLEProductInfo( 
+                name="Water valve controller",
             ),
         },
     ),
