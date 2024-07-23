@@ -35,15 +35,9 @@ from .const import (
 )
 from .devices import TuyaBLEData, TuyaBLEEntity, TuyaBLEProductInfo
 from .tuya_ble import TuyaBLEDataPointType, TuyaBLEDevice
-
 _LOGGER = logging.getLogger(__name__)
-
 SIGNAL_STRENGTH_DP_ID = -1
-
-
 TuyaBLESensorIsAvailable = Callable[["TuyaBLESensor", TuyaBLEProductInfo], bool] | None
-
-
 @dataclass
 class TuyaBLESensorMapping:
     dp_id: int
@@ -54,8 +48,6 @@ class TuyaBLESensorMapping:
     coefficient: float = 1.0
     icons: list[str] | None = None
     is_available: TuyaBLESensorIsAvailable = None
-
-
 @dataclass
 class TuyaBLEBatteryMapping(TuyaBLESensorMapping):
     description: SensorEntityDescription = field(
@@ -67,8 +59,6 @@ class TuyaBLEBatteryMapping(TuyaBLESensorMapping):
             state_class=SensorStateClass.MEASUREMENT,
         )
     )
-
-
 @dataclass
 class TuyaBLETemperatureMapping(TuyaBLESensorMapping):
     description: SensorEntityDescription = field(
@@ -79,7 +69,6 @@ class TuyaBLETemperatureMapping(TuyaBLESensorMapping):
             state_class=SensorStateClass.MEASUREMENT,
         )
     )
-
 
 def is_co2_alarm_enabled(self: TuyaBLESensor, product: TuyaBLEProductInfo) -> bool:
     result: bool = True
@@ -268,8 +257,8 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
                 TuyaBLESensorMapping(
                     dp_id=3,
                     description=SensorEntityDescription(
-                        key="humidity",
-                        device_class=SensorDeviceClass.HUMIDITY,
+                        key="moisture",
+                        device_class=SensorDeviceClass.MOISTURE,
                         native_unit_of_measurement=PERCENTAGE,
                         state_class=SensorStateClass.MEASUREMENT,
                     ),
@@ -409,8 +398,6 @@ mapping: dict[str, TuyaBLECategorySensorMapping] = {
 
 def rssi_getter(sensor: TuyaBLESensor) -> None:
     sensor._attr_native_value = sensor._device.rssi
-
-
 rssi_mapping = TuyaBLESensorMapping(
     dp_id=SIGNAL_STRENGTH_DP_ID,
     description=SensorEntityDescription(
@@ -423,8 +410,6 @@ rssi_mapping = TuyaBLESensorMapping(
     ),
     getter=rssi_getter,
 )
-
-
 def get_mapping_by_device(device: TuyaBLEDevice) -> list[TuyaBLESensorMapping]:
     category = mapping.get(device.category)
     if category is not None and category.products is not None:
@@ -437,11 +422,8 @@ def get_mapping_by_device(device: TuyaBLEDevice) -> list[TuyaBLESensorMapping]:
             return []
     else:
         return []
-
-
 class TuyaBLESensor(TuyaBLEEntity, SensorEntity):
     """Representation of a Tuya BLE sensor."""
-
     def __init__(
         self,
         hass: HomeAssistant,
@@ -452,7 +434,6 @@ class TuyaBLESensor(TuyaBLEEntity, SensorEntity):
     ) -> None:
         super().__init__(hass, coordinator, device, product, mapping.description)
         self._mapping = mapping
-
     @callback
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
@@ -483,7 +464,6 @@ class TuyaBLESensor(TuyaBLEEntity, SensorEntity):
                 else:
                     self._attr_native_value = datapoint.value
         self.async_write_ha_state()
-
     @property
     def available(self) -> bool:
         """Return if entity is available."""
